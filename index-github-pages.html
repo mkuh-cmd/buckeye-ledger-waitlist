@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buckeye Ledger Waitlist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root {
+  --paper: #f3efe4;
+  --paper-raised: #fbf9f3;
+  --ink: #1c1712;
+  --scarlet: #ae1400;
+  --scarlet-deep: #7a0f00;
+  --rule: #d9cfba;
+  --rule-heavy: #c3b596;
+  --gray-soft: #6d6659;
+  --gold: #8a6a2c;
+  --up: #2f6a3f;
+  --down: #a44a10;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #171310;
+    --paper-raised: #211b15;
+    --ink: #ede6d8;
+    --scarlet: #ff6a4d;
+    --scarlet-deep: #ffab8f;
+    --rule: #3a3226;
+    --rule-heavy: #4a4030;
+    --gray-soft: #a89b85;
+    --gold: #d3ac68;
+    --up: #5fc478;
+    --down: #ff9d5c;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #171310;
+  --paper-raised: #211b15;
+  --ink: #ede6d8;
+  --scarlet: #ff6a4d;
+  --scarlet-deep: #ffab8f;
+  --rule: #3a3226;
+  --rule-heavy: #4a4030;
+  --gray-soft: #a89b85;
+  --gold: #d3ac68;
+  --up: #5fc478;
+  --down: #ff9d5c;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 37px,
+    var(--rule) 37px,
+    var(--rule) 38px
+  );
+  background-attachment: local;
+}
+
+.sheet {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 6vw, 64px) 64px;
+  position: relative;
+}
+
+.margined {
+  position: relative;
+  padding-left: clamp(18px, 4vw, 34px);
+  border-left: 2px solid var(--scarlet);
+}
+
+header.masthead {
+  padding-top: 44px;
+  padding-bottom: 22px;
+}
+.wordmark-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+}
+.wordmark {
+  font-family: "Big Shoulders Display", sans-serif;
+  font-weight: 800;
+  font-size: clamp(22px, 4.4vw, 28px);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+.wordmark span { color: var(--scarlet); }
+.masthead-tag {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11.5px;
+  color: var(--gray-soft);
+  letter-spacing: 0.04em;
+}
+
+.hero {
+  padding: 30px 0 40px;
+}
+.hero h1 {
+  font-family: "Big Shoulders Display", sans-serif;
+  font-weight: 800;
+  font-size: clamp(40px, 8.8vw, 74px);
+  line-height: 0.96;
+  letter-spacing: 0.001em;
+  margin: 0 0 20px;
+  text-wrap: balance;
+  text-transform: uppercase;
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--scarlet);
+}
+.hero p.lede {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--gray-soft);
+  max-width: 46ch;
+  margin: 0 0 26px;
+}
+
+.entry-card {
+  background: var(--paper-raised);
+  border: 1px solid var(--rule-heavy);
+  border-radius: 3px;
+  padding: 18px 20px;
+  max-width: 480px;
+  box-shadow: 0 10px 24px -14px rgba(20, 12, 4, 0.35);
+}
+.entry-card .ec-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  color: var(--gray-soft);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 8px;
+}
+.ec-head span:first-child {
+  min-width: 0;
+}
+.ec-head .flag {
+  color: var(--scarlet);
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.entry-card .ec-body {
+  font-size: 15px;
+  line-height: 1.5;
+}
+.entry-card .ec-body strong { font-weight: 600; }
+.ec-stats {
+  display: flex;
+  gap: 22px;
+  margin-top: 12px;
+  font-family: "IBM Plex Mono", monospace;
+  font-variant-numeric: tabular-nums;
+}
+.ec-stat .n {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--up);
+}
+.ec-stat .l {
+  font-size: 10px;
+  color: var(--gray-soft);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.cta-inline {
+  margin-top: 26px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--scarlet);
+  color: #fdf6f2;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: 600;
+  font-size: 14.5px;
+  letter-spacing: 0.01em;
+  border: none;
+  border-radius: 3px;
+  padding: 12px 20px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 120ms ease;
+}
+.btn-primary:hover { background: var(--scarlet-deep); }
+.btn-primary:focus-visible { outline: 2px solid var(--scarlet); outline-offset: 3px; }
+.cta-note {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  color: var(--gray-soft);
+}
+
+.section-head {
+  margin: 8px 0 22px;
+  padding-top: 30px;
+  border-top: 3px double var(--rule-heavy);
+}
+.section-head .eyebrow {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--scarlet);
+  margin-bottom: 6px;
+}
+.section-head h2 {
+  font-family: "Big Shoulders Display", sans-serif;
+  font-weight: 700;
+  font-size: clamp(24px, 4.4vw, 32px);
+  margin: 0;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.ledger-list {
+  display: flex;
+  flex-direction: column;
+}
+.ledger-row {
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  gap: 4px 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: baseline;
+}
+.ledger-row:first-child { padding-top: 4px; }
+.ledger-row .no {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 13px;
+  color: var(--gray-soft);
+  padding-top: 3px;
+}
+.ledger-row .desc h3 {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: 600;
+  font-size: 15.5px;
+  margin: 0 0 4px;
+  letter-spacing: 0.01em;
+}
+.ledger-row .desc p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--gray-soft);
+  max-width: 52ch;
+}
+.ledger-row .desc .real {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12.5px;
+  color: var(--ink);
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  padding: 2px 7px;
+  display: inline-block;
+  margin-top: 7px;
+}
+.ledger-row .figure {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 600;
+  font-size: 15px;
+  text-align: right;
+  white-space: nowrap;
+  align-self: start;
+  padding-top: 3px;
+}
+.figure.free { color: var(--ink); }
+.figure.locked {
+  filter: blur(3.5px);
+  user-select: none;
+}
+@media (max-width: 560px) {
+  .ledger-row { grid-template-columns: 26px 1fr; }
+  .ledger-row .figure { grid-column: 2; text-align: left; padding-top: 0; }
+}
+
+.positioning p {
+  font-size: 15.5px;
+  line-height: 1.7;
+  max-width: 58ch;
+  margin: 0 0 14px;
+}
+.positioning strong { color: var(--scarlet); font-weight: 600; }
+
+.waitlist-panel {
+  background: var(--paper-raised);
+  border: 1px solid var(--rule-heavy);
+  border-radius: 3px;
+  padding: clamp(22px, 4vw, 34px);
+}
+.waitlist-panel h2 {
+  font-family: "Big Shoulders Display", sans-serif;
+  font-weight: 700;
+  font-size: clamp(24px, 4.4vw, 30px);
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+.waitlist-panel .sub {
+  font-size: 14.5px;
+  color: var(--gray-soft);
+  max-width: 48ch;
+  margin: 0 0 22px;
+  line-height: 1.55;
+}
+form.waitlist-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 420px;
+}
+.field label {
+  display: block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--gray-soft);
+  margin-bottom: 6px;
+}
+.field input {
+  width: 100%;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--rule-heavy);
+  border-radius: 3px;
+  padding: 11px 12px;
+}
+.field input:focus-visible {
+  outline: none;
+  border-color: var(--scarlet);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--scarlet) 18%, transparent);
+}
+.form-row-bottom {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+.form-status {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12.5px;
+  color: var(--gray-soft);
+}
+.thanks-box {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  color: var(--up);
+  border: 1px solid var(--rule-heavy);
+  border-radius: 3px;
+  padding: 16px 18px;
+  background: var(--paper);
+}
+.waitlist-panel .fine {
+  margin-top: 18px;
+  font-size: 11.5px;
+  color: var(--gray-soft);
+  line-height: 1.5;
+}
+
+footer {
+  margin-top: 50px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  color: var(--gray-soft);
+  line-height: 1.7;
+}
+footer a { color: var(--gray-soft); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn-primary { transition: background-color 120ms ease; }
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="margined">
+    <header class="masthead">
+      <div class="wordmark-row">
+        <div class="wordmark">BUCKEYE<span> </span><span>LEDGER</span></div>
+        <div class="masthead-tag">OHIO STATE FOOTBALL &middot; ANALYTICS</div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <h1>THE BOOKS ON<br><em>BUCKEYE&nbsp;FOOTBALL.</em></h1>
+      <p class="lede">
+        Every player, every trend, every week — tracked, checked, and filed automatically.
+        Story leads flagged before the beat writers get to them, matchup previews built two
+        ways, and a program history that goes back further than this season's box score.
+      </p>
+
+      <div class="entry-card">
+        <div class="ec-head">
+          <span>ENTRY &middot; RECEIVING YARDS &middot; WEEK 12&ndash;14</span>
+          <span class="flag">STORY LEAD</span>
+        </div>
+        <div class="ec-body">
+          <strong>Max Klare</strong> — receiving yards up <strong>48%</strong> over his last 3 games.
+        </div>
+        <div class="ec-stats">
+          <div class="ec-stat">
+            <div class="n">51.0</div>
+            <div class="l">Yds / gm, last 3</div>
+          </div>
+          <div class="ec-stat">
+            <div class="n" style="color: var(--gray-soft);">34.5</div>
+            <div class="l">Season avg</div>
+          </div>
+          <div class="ec-stat">
+            <div class="n">&uarr; 48%</div>
+            <div class="l">Swing</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta-inline">
+        <a class="btn-primary" href="#waitlist">Reserve my line &rarr;</a>
+        <span class="cta-note">Free to join &middot; no spam &middot; unsubscribe anytime</span>
+      </div>
+    </section>
+
+    <section class="ledger-features">
+      <div class="section-head">
+        <div class="eyebrow">What's in the ledger</div>
+        <h2>Five entries, kept weekly.</h2>
+      </div>
+
+      <div class="ledger-list">
+        <div class="ledger-row">
+          <div class="no">01</div>
+          <div class="desc">
+            <h3>Story Leads</h3>
+            <p>Every player's last three games checked against their season pace. A 25%+ swing gets flagged automatically — before it's a headline anywhere else.</p>
+            <span class="real">Real example: Arvell Reese's tackles, down 73% over 3 games</span>
+          </div>
+          <div class="figure free">FREE</div>
+        </div>
+
+        <div class="ledger-row">
+          <div class="no">02</div>
+          <div class="desc">
+            <h3>Program Trends</h3>
+            <p>Five seasons of team performance, charted year over year — points, yardage, turnover margin. The program's own paper trail.</p>
+            <span class="real">2021: 45.7 PPG &rarr; 2025: 33.4 PPG, 9.3 allowed/gm</span>
+          </div>
+          <div class="figure free">FREE</div>
+        </div>
+
+        <div class="ledger-row">
+          <div class="no">03</div>
+          <div class="desc">
+            <h3>Recruiting Watch</h3>
+            <p>Every player's original recruiting grade, checked against what they're actually producing this season — pedigree against paper.</p>
+            <span class="real">Jeremiah Smith (5-star) — #1 in receiving yards, 1,243 this season</span>
+          </div>
+          <div class="figure locked">PREMIUM</div>
+        </div>
+
+        <div class="ledger-row">
+          <div class="no">04</div>
+          <div class="desc">
+            <h3>Matchup Previews</h3>
+            <p>Before every kickoff: your offense against their defense, and theirs against yours. Both sides of the ledger, every week.</p>
+            <span class="real">Week 1: Ohio State vs. Ball State — 2026-09-05</span>
+          </div>
+          <div class="figure locked">PREMIUM</div>
+        </div>
+
+        <div class="ledger-row">
+          <div class="no">05</div>
+          <div class="desc">
+            <h3>Betting Context</h3>
+            <p>This week's posted spread and total, plus the season's record against both — reported, not recommended. Informational only.</p>
+            <span class="real">Season vs. the line so far: 10&ndash;4&ndash;0 ATS</span>
+          </div>
+          <div class="figure locked">PREMIUM</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="positioning">
+    <div class="section-head">
+      <div class="eyebrow">Who this is for</div>
+      <h2>Built for people who already read the box score.</h2>
+    </div>
+    <p>
+      This isn't another recruiting rumor mill or gameday hot-take feed — Eleven Warriors and
+      On3 already do that better than we ever would. <strong>Buckeye Ledger is a stats
+      product</strong>: automated, checked twice before it publishes, and built for the reader
+      who wants the number, not the take.
+    </p>
+    <p>
+      That means it works for two kinds of people at once — the fan who wants a deeper look
+      than the scoreboard gives, and the beat writer or producer who needs a fast, sourced
+      number on deadline.
+    </p>
+  </section>
+
+  <section id="waitlist" class="waitlist">
+    <div class="section-head">
+      <div class="eyebrow">Join the ledger</div>
+      <h2>Reserve your line.</h2>
+    </div>
+
+    <div class="waitlist-panel">
+      <div id="wlDefault">
+        <h2>Get in before kickoff.</h2>
+        <p class="sub">
+          We're finishing the subscription build now. Join the waitlist and you'll be the first
+          to hear when Buckeye Ledger opens — plus an early look at premium pricing before it's
+          public.
+        </p>
+
+        <form class="waitlist-form" action="https://formspree.io/f/xkjnbonr" method="POST">
+          <div class="field">
+            <label for="wlName">Name (optional)</label>
+            <input type="text" id="wlName" name="name" autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="wlEmail">Email</label>
+            <input type="email" id="wlEmail" name="email" autocomplete="email" required>
+          </div>
+          <input type="hidden" name="_subject" value="Buckeye Ledger waitlist signup">
+          <input type="hidden" name="_next" value="https://mkuh-cmd.github.io/buckeye-ledger-waitlist/?joined=1">
+          <div class="form-row-bottom">
+            <button type="submit" class="btn-primary">Reserve my line &rarr;</button>
+            <span class="form-status">We'll never share your email.</span>
+          </div>
+        </form>
+      </div>
+
+      <div id="wlThanks" class="thanks-box" hidden>
+        You're on the list — thanks for joining. We'll email you when Buckeye Ledger opens.
+      </div>
+
+      <p class="fine">
+        We'll only email you about Buckeye Ledger — launch news and, if you opt in later, the
+        weekly newsletter. No spam, no list sharing.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <div>BUCKEYE LEDGER — an independent college football analytics project.</div>
+    <div>Not affiliated with, endorsed by, or sponsored by The Ohio State University or its athletics department. All stats sourced from public play-by-play data.</div>
+    <div>Betting figures shown on the full site are informational and historical only — not betting advice.</div>
+  </footer>
+
+</div>
+
+<script>
+  // After Formspree redirects back here with ?joined=1, swap the form
+  // for a thank-you message instead of leaving Formspree's own page as
+  // the last thing the visitor sees.
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('joined') === '1') {
+      document.getElementById('wlDefault').hidden = true;
+      document.getElementById('wlThanks').hidden = false;
+    }
+  })();
+</script>
+
+</body>
+</html>
