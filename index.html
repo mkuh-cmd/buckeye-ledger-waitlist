@@ -548,7 +548,7 @@ footer a { color: var(--gray-soft); }
           public.
         </p>
 
-        <form class="waitlist-form" action="https://formspree.io/f/xkjnbonr" method="POST">
+        <form class="waitlist-form" id="wlForm" action="https://formspree.io/f/xkjnbonr" method="POST">
           <div class="field">
             <label for="wlName">Name (optional)</label>
             <input type="text" id="wlName" name="name" autocomplete="name">
@@ -558,10 +558,9 @@ footer a { color: var(--gray-soft); }
             <input type="email" id="wlEmail" name="email" autocomplete="email" required>
           </div>
           <input type="hidden" name="_subject" value="Buckeye Ledger waitlist signup">
-          <input type="hidden" name="_next" value="https://mkuh-cmd.github.io/buckeye-ledger-waitlist/?joined=1">
           <div class="form-row-bottom">
-            <button type="submit" class="btn-primary">Reserve my line &rarr;</button>
-            <span class="form-status">We'll never share your email.</span>
+            <button type="submit" class="btn-primary" id="wlSubmit">Reserve my line &rarr;</button>
+            <span class="form-status" id="wlStatus">We'll never share your email.</span>
           </div>
         </form>
       </div>
@@ -586,15 +585,48 @@ footer a { color: var(--gray-soft); }
 </div>
 
 <script>
-  // After Formspree redirects back here with ?joined=1, swap the form
-  // for a thank-you message instead of leaving Formspree's own page as
-  // the last thing the visitor sees.
+  // Submit to Formspree via fetch instead of a full-page form POST, so we
+  // can show our own styled thank-you message inline without needing
+  // Formspree's paid custom-redirect feature. This works fine on real
+  // hosting (unlike inside a Claude artifact's sandbox, where fetch to an
+  // outside host is blocked) — falls back to a normal page submission if
+  // JavaScript is unavailable, since the form still has a real action/method.
   (function () {
-    var params = new URLSearchParams(window.location.search);
-    if (params.get('joined') === '1') {
-      document.getElementById('wlDefault').hidden = true;
-      document.getElementById('wlThanks').hidden = false;
-    }
+    var form = document.getElementById('wlForm');
+    var status = document.getElementById('wlStatus');
+    var submitBtn = document.getElementById('wlSubmit');
+    if (!form) return;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      status.textContent = 'Submitting…';
+
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).then(function (response) {
+        if (response.ok) {
+          document.getElementById('wlDefault').hidden = true;
+          document.getElementById('wlThanks').hidden = false;
+        } else {
+          response.json().then(function (data) {
+            var msg = (data && data.errors && data.errors.length)
+              ? data.errors.map(function (err) { return err.message; }).join(', ')
+              : 'Something went wrong — please try again.';
+            status.textContent = msg;
+            submitBtn.disabled = false;
+          }).catch(function () {
+            status.textContent = 'Something went wrong — please try again.';
+            submitBtn.disabled = false;
+          });
+        }
+      }).catch(function () {
+        status.textContent = 'Network error — please try again.';
+        submitBtn.disabled = false;
+      });
+    });
   })();
 </script>
 
